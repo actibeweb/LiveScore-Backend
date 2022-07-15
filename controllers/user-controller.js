@@ -51,12 +51,19 @@ exports.login = async (req, res, next) => {
   if (!existingUser) {
     return res.status(401).json({ err: "Admin not found." });
   }
+
+  const isMatch = await bcrypt.compare(password, existingUser.password);
+  if (!isMatch) {
+    return res.status(401).json({ err: "Invalid Password." });
+  }
   let token;
   try {
-    token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"365d"})
+    token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "365d",
+    });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({err:"JWT error."})
+    return res.status(500).json({ err: "JWT error." });
   }
-  res.status(201).json({existingUser,token})
+  res.status(201).json({ existingUser, token });
 };
