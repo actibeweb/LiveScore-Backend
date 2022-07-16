@@ -45,16 +45,16 @@ exports.login = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res
-      .status(500)
+      .status(200)
       .json({ err: "Login failed, Please try again later." });
   }
   if (!existingUser) {
-    return res.status(401).json({ err: "Admin not found." });
+    return res.status(201).json({ err: "Admin not found." });
   }
 
   const isMatch = await bcrypt.compare(password, existingUser.password);
   if (!isMatch) {
-    return res.status(401).json({ err: "Invalid Password." });
+    return res.status(201).json({ err: "Invalid Password." });
   }
   let token;
   try {
@@ -63,7 +63,7 @@ exports.login = async (req, res, next) => {
     });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ err: "JWT error." });
+    return res.status(200).json({ err: "JWT error." });
   }
   res.status(201).json({ existingUser, token });
 };

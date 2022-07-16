@@ -8,8 +8,6 @@ app.use(cors())
 const user = require('./routes/user');
 
 app.use('/user',user);
-app.use('/',(req,res)=>{
-    res.send("Server is running");
-})
+
 
 module.exports = app;
