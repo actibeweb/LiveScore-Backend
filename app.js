@@ -16,10 +16,12 @@ app.use(fileUpload())
 const user = require('./routes/user');
 const article = require("./routes/article");
 const logo = require("./routes/logo");
+const category = require("./routes/category");
 
 
 app.use('/user',user);
 app.use("/article", article);
 app.use('/logo',logo);
+app.use('/category',category);
 
 module.exports = app;
