@@ -16,3 +16,5 @@ router.get("/getAllArticles", getArticles);
 router.get("/getArticleById/:id", getArticleById);
 router.put("/updateArticle/:id", isAuthenticatedUser, updateArticle);
 router.delete("/deleteArticle/:id", isAuthenticatedUser, deleteArticle);
+
+module.exports = router;

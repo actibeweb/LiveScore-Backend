@@ -48,7 +48,7 @@ exports.updateArticle = async (req, res) => {
       .status(200)
       .json({ err: "Something went wrong in getting Article" });
   }
-  if (!product) {
+  if (!article) {
     return res.status(200).json({ err: "Could not find article for this id" });
   }
   try {
