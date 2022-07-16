@@ -63,3 +63,28 @@ exports.updateArticle = async (req, res) => {
   }
   res.status(200).json(article);
 };
+
+exports.deleteArticle = async (req, res) => {
+    const articleId = req.params.id;
+    let article;
+    try {
+        article = await Article.findById(articleId);
+      } catch (err) {
+        console.log(err);
+        return res
+          .status(500)
+          .json({ err: "Something went wrong in delete Article" });
+      }
+      if (!article) {
+        return res
+          .status(500)
+          .json({ message: "Could not find article for this id" });
+      }
+      try {
+        await article.remove();
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Article could not be deleted" });
+      }
+      res.status(200).json({ message: "Article deleted successfully" });
+}
