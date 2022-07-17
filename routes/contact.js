@@ -12,6 +12,6 @@ const {
 router.post("/create", createContact);
 router.get("/get", isAuthenticatedUser, getAllContact);
 router.post("/updatePage", isAuthenticatedUser, updateContactPage);
-router.get("/getPage",getContactPage);
+router.get("/getPage",getContactPage); 
 
 module.exports = router;

@@ -5,6 +5,6 @@ const {updateLogo,getLogo} = require('../controllers/logo-controller');
 const {isAuthenticatedUser} = require('../middlewares/checkUserAuth');
 
 router.post('/update',isAuthenticatedUser,updateLogo);
-router.get('/get',isAuthenticatedUser,getLogo);
+router.get('/get',getLogo);
 
 module.exports = router;
