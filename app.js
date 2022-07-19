@@ -18,6 +18,7 @@ const about = require("./routes/about");
 const contact = require("./routes/contact");
 const terms = require("./routes/terms");
 const affiliate = require("./routes/affiliate")
+const adsense = require("./routes/adsense")
 
 app.use("/user", user);
 app.use("/article", article);
@@ -27,5 +28,6 @@ app.use("/about", about);
 app.use("/contact", contact);
 app.use("/terms", terms);
 app.use("/affiliate",affiliate);
+app.use("/adsense",adsense);
 
 module.exports = app;
