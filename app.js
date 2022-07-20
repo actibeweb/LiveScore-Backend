@@ -19,6 +19,7 @@ const contact = require("./routes/contact");
 const terms = require("./routes/terms");
 const affiliate = require("./routes/affiliate")
 const adsense = require("./routes/adsense")
+const match = require("./routes/match")
 
 app.use("/user", user);
 app.use("/article", article);
@@ -29,5 +30,6 @@ app.use("/contact", contact);
 app.use("/terms", terms);
 app.use("/affiliate",affiliate);
 app.use("/adsense",adsense);
+app.use("/match",match);
 
 module.exports = app;
