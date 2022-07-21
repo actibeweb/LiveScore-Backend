@@ -1,6 +1,21 @@
 const mongoose = require("mongoose");
 
 const matchSchema = new mongoose.Schema({
+  category: {
+    type: String,
+    required: true,
+    enum: [
+      "soccer",
+      "basketball",
+      "tennis",
+      "cricket",
+      "hockey",
+      "baseball",
+      "rugby",
+      "motosports",
+      "mmaFight",
+    ],
+  },
   home: {
     type: String,
     required: true,
