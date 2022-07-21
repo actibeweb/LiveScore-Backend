@@ -88,3 +88,17 @@ exports.deleteMatch = async (req, res, next) => {
   }
   res.status(200).json({ message: "Match deleted successfully" });
 };
+
+exports.getMatchesByFilter = async (req, res, next) => {
+  let matches = [];
+  console.log(req.params.category);
+  console.log(req.body);
+  try {
+    matches = await Match.find({category:req.params.category,date:req.body.date});
+
+  } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Error getting matches" });
+  }
+  return res.status(200).json(matches);
+}
