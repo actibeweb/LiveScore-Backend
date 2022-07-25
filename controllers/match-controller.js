@@ -1,6 +1,43 @@
 const Match = require("../models/match");
+const cloudinary = require("cloudinary");
 
 exports.createMatch = async (req, res, next) => {
+  let homeLink = {};
+
+  try {
+    const result = await cloudinary.v2.uploader.upload(req.body.homeLogo, {
+      folder: "logo",
+      fetch_format: "auto",
+    });
+
+    homeLink = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Error in uploading image" });
+  }
+
+  // console.log(homeLink);
+  req.body.homeLogo = homeLink;
+  let awayLink = {};
+  try {
+    const result = await cloudinary.v2.uploader.upload(req.body.awayLogo, {
+      folder: "logo",
+      fetch_format: "auto",
+    });
+
+    awayLink = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Error in uploading image" });
+  }
+  // console.log(awayLink);
+  req.body.awayLogo = awayLink;
   let match;
   try {
     match = await Match.create(req.body);
@@ -14,7 +51,7 @@ exports.createMatch = async (req, res, next) => {
 exports.getAllMatches = async (req, res, next) => {
   let matches = [];
   try {
-    matches = await Match.find();
+    matches = await Match.find().sort({ _id: -1 });
   } catch (err) {
     console.log(err);
     return res.status(200).json({ err: "Error getting matches" });
@@ -38,6 +75,42 @@ exports.getMatchById = async (req, res, next) => {
 };
 
 exports.updateMatch = async (req, res, next) => {
+  let homeLink = {};
+
+  try {
+    const result = await cloudinary.v2.uploader.upload(req.body.homeLogo, {
+      folder: "logo",
+      fetch_format: "auto",
+    });
+
+    homeLink = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Error in uploading image" });
+  }
+
+  // console.log(homeLink);
+  req.body.homeLogo = homeLink;
+  let awayLink = {};
+  try {
+    const result = await cloudinary.v2.uploader.upload(req.body.awayLogo, {
+      folder: "logo",
+      fetch_format: "auto",
+    });
+
+    awayLink = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Error in uploading image" });
+  }
+  // console.log(awayLink);
+  req.body.awayLogo = awayLink;
   const matchId = req.params.id;
   let match;
   try {
@@ -94,11 +167,13 @@ exports.getMatchesByFilter = async (req, res, next) => {
   console.log(req.params.category);
   console.log(req.body);
   try {
-    matches = await Match.find({category:req.params.category,date:req.body.date});
-
+    matches = await Match.find({
+      category: req.params.category,
+      date: req.body.date,
+    });
   } catch (err) {
     console.log(err);
     return res.status(200).json({ err: "Error getting matches" });
   }
   return res.status(200).json(matches);
-}
+};

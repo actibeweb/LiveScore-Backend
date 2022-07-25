@@ -20,9 +20,29 @@ const matchSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  homeLogo: {
+    public_id: {
+      type: String,
+      // required: true,
+    },
+    url: {
+      type: String,
+      // required: true,
+    },
+  },
   away: {
     type: String,
     required: true,
+  },
+  awayLogo: {
+    public_id: {
+      type: String,
+      // required: true,
+    },
+    url: {
+      type: String,
+      // required: true,
+    },
   },
   date: {
     type: Date,
