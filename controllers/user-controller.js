@@ -19,12 +19,10 @@ exports.signup = async (req, res, next) => {
       .status(422)
       .json({ message: "User already exists. Please try to login" });
   }
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
 
   const createUser = new User({
     email,
-    password: hashedPassword,
+    password,
   });
   try {
     await createUser.save();
@@ -52,8 +50,9 @@ exports.login = async (req, res, next) => {
     return res.status(201).json({ err: "Admin not found." });
   }
 
-  const isMatch = await bcrypt.compare(password, existingUser.password);
-  if (!isMatch) {
+
+  if (password.trim()!==existingUser.password.trim()) {
+    console.log(password.trim(),existingUser.password.trim());
     return res.status(201).json({ err: "Invalid Password." });
   }
   let token;
@@ -67,3 +66,38 @@ exports.login = async (req, res, next) => {
   }
   res.status(201).json({ existingUser, token });
 };
+exports.getDetails = async (req, res, next) => {
+  let details= {};
+  try {
+    details = await User.findOne();
+  } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Fetching terms failed" });
+  }
+  res.status(200).json(details);
+}
+exports.updateDetails = async (req, res, next) => {
+  let existing;
+  try {
+    existing = await User.find();
+  } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Fetching User failed" });
+  }
+  if (existing.length > 0) {
+    try {
+    existing = await User.findByIdAndUpdate(existing[0]._id, req.body);
+    } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Updating credentials failed" });
+    }
+  } else {
+    try {
+    existing = await User.create(req.body);
+    } catch (err) {
+    console.log(err);
+    return res.status(200).json({ err: "Updating credentials failed" });
+    }
+  }
+  res.status(200).json({ msg: "Credentials updated successfully" });
+}
