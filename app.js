@@ -8,6 +8,9 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
+app.options('/*', (_, res) => {
+    res.sendStatus(200);
+});
 
 //Import all the routes
 const user = require("./routes/user");
